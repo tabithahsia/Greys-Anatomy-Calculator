@@ -1,2 +1,3 @@
 # Greys-Anatomy-Calculator
-Calculate how many hours you've spent on Grey's Anatomy and how many hours are left
+Calculate how much time you've spent on Grey's Anatomy and how much time is left
+
