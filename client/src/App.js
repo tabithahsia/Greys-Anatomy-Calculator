@@ -7,13 +7,12 @@ class App extends React.Component {
 
     this.state = {
       seasons: [],
-      episodes: [1, 2, 3],
+      episodes: [],
       currentSeason: 0
     }
   }
 
   async componentDidMount() {
-    // TODO: get episode list of default season
     await this.getSeasonsList();
   }
 
@@ -49,7 +48,9 @@ class App extends React.Component {
     })
     .then(res => res.json())
     .then(res => {
-      console.log("episode response", res);
+      this.setState({
+        episodes: res
+      })
     })
   }
 
@@ -64,8 +65,7 @@ class App extends React.Component {
   let episodesList= this.state.episodes.length > 0
   && this.state.episodes.map((item, i) => {
   return (
-    // TODO: Add titles, ex: Episode 1 - The Pilot
-    <option key={i} value={item}>{"Episode " + item}</option>
+    <option key={i} value={item}>{"Episode " + item.episode + " - " + item.title}</option>
   )
 }, this);
     return (
