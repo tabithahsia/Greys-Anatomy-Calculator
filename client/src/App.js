@@ -7,7 +7,8 @@ class App extends React.Component {
     this.state = {
       seasons: [],
       episodes: [],
-      currentSeason: 0
+      currentSeason: 0,
+      currentEpisode: 0
     }
   }
 
@@ -35,7 +36,8 @@ class App extends React.Component {
 
   changeSeason = (event) => {
     this.setState({
-      currentSeason: Number(event.target.value)
+      currentSeason: Number(event.target.value),
+      currentEpisode: 1
     })
   }
 
@@ -48,8 +50,15 @@ class App extends React.Component {
     .then(res => res.json())
     .then(res => {
       this.setState({
-        episodes: res
+        episodes: res,
+        currentEpisode: res[0].episode
       })
+    })
+  }
+
+  changeEpisode = (event) => {
+    this.setState({
+      currentEpisode: event.target.value
     })
   }
 
@@ -64,7 +73,7 @@ class App extends React.Component {
   let episodesList= this.state.episodes.length > 0
   && this.state.episodes.map((item, i) => {
   return (
-    <option key={i} value={item}>{"Episode " + item.episode + " - " + item.title}</option>
+    <option key={i} value={item.episode}>{"Episode " + item.episode + " - " + item.title}</option>
   )
 }, this);
     return (
@@ -76,9 +85,10 @@ class App extends React.Component {
             {seasonsList}
           </select>
         <h4>What episode did you last watch?</h4>
-          <select>
+          <select value={this.state.currentEpisode} onChange={this.changeEpisode}>
             {episodesList}
           </select>
+
       </div>
     )
   }
