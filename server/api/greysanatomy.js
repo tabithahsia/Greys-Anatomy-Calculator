@@ -4,7 +4,7 @@ var GreysAnatomy = require('../models/greysanatomy');
 var router = express.Router();
 
 router.get('/seasons', function(req, res) {
-    GreysAnatomy.retrieveSeasons(function(err, seasons) {
+    GreysAnatomy.retrieveSeasons((err, seasons) => {
         if (err) {
             return res.json(err);
         }
@@ -12,13 +12,15 @@ router.get('/seasons', function(req, res) {
     })
 });
 
-router.get('/episodes', function(req, res) {
-    GreysAnatomy.retrieveEpisodes(function(err, episodes) {
+router.post('/episodes', function(req, res) {
+    let currentSeason = req.body.currentSeason;
+    
+    GreysAnatomy.retrieveEpisodes(currentSeason, (err, episodes) => {
         if (err){
             return res.json(err);
         }
         return res.json(episodes);
-    })
+    });
 });
 
 module.exports = router;

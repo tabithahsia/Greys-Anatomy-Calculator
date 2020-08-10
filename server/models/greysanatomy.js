@@ -10,16 +10,15 @@ class GreysAnatomy {
         })
     }
 
-    static retrieveEpisodes (callback) {
-        db.query('SELECT * FROM greysanatomy', function (err, res) {
+    static retrieveEpisodes (currentSeason, callback) {
+        console.log("currentSeason", currentSeason);
+        db.query(`SELECT * FROM greysanatomy WHERE season=${currentSeason}`, function (err, res) {
             if (err.error){
                 return callback(err);
             }
             callback(res);
         })
     }
-
-    // create query for episodes based on seasons
     // create query for milliseconds based on the seasons + episodes
 }
 

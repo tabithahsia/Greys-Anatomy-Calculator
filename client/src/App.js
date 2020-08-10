@@ -8,7 +8,7 @@ class App extends React.Component {
     this.state = {
       seasons: [],
       episodes: [1, 2, 3],
-      currentSeason: undefined
+      currentSeason: 0
     }
   }
 
@@ -16,7 +16,13 @@ class App extends React.Component {
     // TODO: get episode list of default season
     await this.getSeasonsList();
   }
-  
+
+  async componentDidUpdate(prevProps, prevState) {
+    if(prevState.currentSeason !== this.state.currentSeason){
+      await this.getEpisodesList();
+    }
+  }
+
   getSeasonsList = () => {
     fetch('/api/greysanatomy/seasons')
     .then(res => res.json())
@@ -31,7 +37,19 @@ class App extends React.Component {
 
   changeSeason = (event) => {
     this.setState({
-      currentSeason: event.target.value
+      currentSeason: Number(event.target.value)
+    })
+  }
+
+  getEpisodesList = () => {
+    fetch('/api/greysanatomy/episodes', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ currentSeason: this.state.currentSeason })    
+    })
+    .then(res => res.json())
+    .then(res => {
+      console.log("episode response", res);
     })
   }
 
