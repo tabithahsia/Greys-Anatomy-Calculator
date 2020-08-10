@@ -46,7 +46,6 @@ class App extends React.Component {
           </select>
         <h4>What episode did you last watch?</h4>
           <select>
-            {episodes}
           </select>
       </div>
     )
