@@ -11,7 +11,6 @@ class GreysAnatomy {
     }
 
     static retrieveEpisodes (currentSeason, callback) {
-        console.log("currentSeason", currentSeason);
         db.query(`SELECT * FROM greysanatomy WHERE season=${currentSeason}`, function (err, res) {
             if (err.error){
                 return callback(err);
@@ -19,7 +18,7 @@ class GreysAnatomy {
             callback(res);
         })
     }
-    // create query for milliseconds based on the seasons + episodes
+    // TODO: create query for milliseconds based on the seasons + episodes
 }
 
 module.exports = GreysAnatomy;
