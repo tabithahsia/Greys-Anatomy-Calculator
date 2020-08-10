@@ -12,12 +12,19 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(bodyparser.json());
 
+app.use('/api/greysanatomy', require('./api/greysanatomy'));
+
+if (ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/build')));
+    app.use((req, res) => {
+      res.sendFile(path.join(__dirname, '../client/build/index.html'));
+    });
+}
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}...`)
 });
 
-app.use('/api/greysanatomy', require('./api/greysanatomy'));
 
 db.query('SELECT NOW()', (err, res) => {
     if (err.error){
