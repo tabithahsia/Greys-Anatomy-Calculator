@@ -1,6 +1,5 @@
 import React from 'react';
 
-// TODO: Import axios
 class App extends React.Component {
   constructor(props) {
     super(props);
