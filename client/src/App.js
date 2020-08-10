@@ -8,6 +8,7 @@ class App extends React.Component {
     this.state = {
       seasons: [],
       episodes: [],
+      currentSeason: 1
     }
   }
 
@@ -34,6 +35,7 @@ class App extends React.Component {
       <option key={i} value={item}>{"Season " + item}</option>
     )
   }, this);
+
     return (
       <div>
         <h1>Grey's Anatomy Calculator</h1>
@@ -43,7 +45,9 @@ class App extends React.Component {
             {seasonsList}
           </select>
         <h4>What episode did you last watch?</h4>
-
+          <select>
+            {episodes}
+          </select>
       </div>
     )
   }
