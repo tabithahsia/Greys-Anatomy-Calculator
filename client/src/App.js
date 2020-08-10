@@ -7,14 +7,14 @@ class App extends React.Component {
 
     this.state = {
       seasons: [],
-      episodes: [],
-      currentSeason: 1
+      episodes: [1, 2, 3],
+      currentSeason: undefined
     }
   }
 
   async componentDidMount() {
     // TODO: get episode list of default season
-    this.getSeasonsList();
+    await this.getSeasonsList();
   }
   
   getSeasonsList = () => {
@@ -23,10 +23,17 @@ class App extends React.Component {
     .then(res => {
       let seasonsList = res.map(x => x.season );
       this.setState({
-        seasons: seasonsList
+        seasons: seasonsList,
+        currentSeason: seasonsList[0]
       })
     });
   };
+
+  changeSeason = (event) => {
+    this.setState({
+      currentSeason: event.target.value
+    })
+  }
 
   render() {
     let seasonsList = this.state.seasons.length > 0
@@ -36,16 +43,24 @@ class App extends React.Component {
     )
   }, this);
 
+  let episodesList= this.state.episodes.length > 0
+  && this.state.episodes.map((item, i) => {
+  return (
+    // TODO: Add titles, ex: Episode 1 - The Pilot
+    <option key={i} value={item}>{"Episode " + item}</option>
+  )
+}, this);
     return (
       <div>
-        <h1>Grey's Anatomy Calculator</h1>
-        <h3>How much time have you sunk on Grey's Anatomy? How much longer until you catch up?</h3>
+        <h1>Grey's Anatomy Time Calculator</h1>
+        <h3>Find out how much time you've sunk on Grey's Anatomy</h3>
         <h4>What season are you on?</h4>
-          <select>
+          <select value={this.state.currentSeason} onChange={this.changeSeason}>
             {seasonsList}
           </select>
         <h4>What episode did you last watch?</h4>
           <select>
+            {episodesList}
           </select>
       </div>
     )
