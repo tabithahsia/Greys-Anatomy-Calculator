@@ -36,7 +36,7 @@ class Database {
     }
 
     end () {
-this._pool.end();
+        this._pool.end();
     }
 }
 
