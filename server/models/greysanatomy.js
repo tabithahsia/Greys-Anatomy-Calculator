@@ -18,7 +18,24 @@ class GreysAnatomy {
             callback(res);
         })
     }
-    // TODO: create query for milliseconds based on the seasons + episodes
+
+    static timeYouveSpent(season, episode, callback) {
+        db.query(`SELECT SUM(length) FROM greysanatomy WHERE id <=(SELECT id FROM greysanatomy WHERE season=${season} AND episode=${episode})`, function(err, res) {
+            if (err.error){
+                return callback(err);
+            }
+            callback(res);
+        })
+    }
+
+    static timeLeft(season, episode, callback) {
+        db.query(`SELECT SUM(length) FROM greysanatomy WHERE id > (SELECT id FROM greysanatomy WHERE season=${season} AND episode=${episode})`, function(err, res) {
+            if (err.error){
+                return callback(err);
+            }
+            callback(res);
+        })
+    }
 }
 
 module.exports = GreysAnatomy;
