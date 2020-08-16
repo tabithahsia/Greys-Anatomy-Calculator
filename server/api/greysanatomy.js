@@ -23,11 +23,11 @@ router.post('/episodes', function(req, res) {
     });
 });
 
-router.post('/timeYouveSpent', function(req, res){
+router.post('/timeSpent', function(req, res){
     let currentSeason = req.body.season;
     let currentEpisode = req.body.episode;
 
-    GreysAnatomy.timeYouveSpent(currentSeason, currentEpisode, (err, sum) => {
+    GreysAnatomy.timeSpent(currentSeason, currentEpisode, (err, sum) => {
         if (err) {
             return res.json(err);
         }

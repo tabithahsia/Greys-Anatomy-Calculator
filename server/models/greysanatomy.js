@@ -19,8 +19,8 @@ class GreysAnatomy {
         })
     }
 
-    static timeYouveSpent(season, episode, callback) {
-        db.query(`SELECT SUM(length) FROM greysanatomy WHERE id <=(SELECT id FROM greysanatomy WHERE season=${season} AND episode=${episode})`, function(err, res) {
+    static timeSpent(season, episode, callback) {
+        db.query(`SELECT SUM(length) FROM greysanatomy WHERE (season=${season} AND episode <=${episode}) OR (season<${season})`, function(err, res) {
             if (err.error){
                 return callback(err);
             }
@@ -29,7 +29,7 @@ class GreysAnatomy {
     }
 
     static timeLeft(season, episode, callback) {
-        db.query(`SELECT SUM(length) FROM greysanatomy WHERE id > (SELECT id FROM greysanatomy WHERE season=${season} AND episode=${episode})`, function(err, res) {
+        db.query(`SELECT SUM(length) FROM greysanatomy WHERE (season=${season} AND episode > ${episode}) OR (season>${season})`, function(err, res) {
             if (err.error){
                 return callback(err);
             }

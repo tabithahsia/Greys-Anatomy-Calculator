@@ -25,7 +25,7 @@ class App extends React.Component {
     }
 
     if(this.state.currentEpisode > 0 && this.state.currentSeason > 0 && (prevState.currentSeason !== this.state.currentSeason || prevState.currentEpisode !== this.state.currentEpisode)){
-      await this.getTimeYouveSpent(this.state.currentSeason, this.state.currentEpisode);
+      await this.getTimeSpent(this.state.currentSeason, this.state.currentEpisode);
       await this.getTimeLeft(this.state.currentSeason, this.state.currentEpisode);
     }
   }
@@ -64,22 +64,21 @@ class App extends React.Component {
     })
   }
 
-  getTimeYouveSpent = () => {
-    fetch('/api/greysanatomy/timeYouveSpent', {
+  getTimeSpent = () => {
+    fetch('/api/greysanatomy/timeSpent', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ season: this.state.currentSeason, episode: this.state.currentEpisode} )    
     })
     .then(res => res.json())
     .then(res => {
-      console.log("res", res);
       this.setState({
         timeSpent: Number(res[0].sum),
       })
     })
   }
 
-  getTimeLeft= () => {
+  getTimeLeft = () => {
     fetch('/api/greysanatomy/timeLeft', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -87,7 +86,6 @@ class App extends React.Component {
     })
     .then(res => res.json())
     .then(res => {
-      console.log("res", res);
       this.setState({
         timeLeft: Number(res[0].sum),
       })
@@ -95,7 +93,7 @@ class App extends React.Component {
   }
 
   millisecondsToDaysHoursMinutesSeconds = (milliSeconds) => {
-    let milliseconds, days, hours, minutes, seconds; 
+    let milliseconds, days, hours, minutes; 
     if(milliSeconds > 0) {
       milliseconds = milliSeconds;
       days= Math.floor( milliseconds / ( 24 * 60 * 60 * 1000 ) );
@@ -109,13 +107,11 @@ class App extends React.Component {
       if ( minutes < 0 ) { minutes = 0; } 
       milliseconds  -= minutes * 60 * 1000;
 
-      seconds  = Math.floor( milliseconds / ( 1000 ) );
-      if ( seconds < 0 ) { seconds = 0; }
-
   }else{
-   days = hours = minutes = seconds = 0;
+   days = hours = minutes = 0;
   }
-  return `Days: ${days}, Hours: ${hours}, Minutes: ${minutes}, Seconds:${seconds}`;
+
+  return `${days} days, ${hours} hours, and ${minutes} minutes`;
  };
 
 
@@ -155,8 +151,8 @@ class App extends React.Component {
           </select>
           <br/>
         <div>
-          <h4>{`You've spent: ${this.millisecondsToDaysHoursMinutesSeconds(this.state.timeSpent)}`}</h4>
-          <h4>{`You have: ${this.millisecondsToDaysHoursMinutesSeconds(this.state.timeLeft)} left`}</h4>
+          <h4>{`You've spent ${this.millisecondsToDaysHoursMinutesSeconds(this.state.timeSpent)}`}</h4>
+          <h4>{`You have ${this.millisecondsToDaysHoursMinutesSeconds(this.state.timeLeft)} left`}</h4>
         </div>
       </div>
     )
