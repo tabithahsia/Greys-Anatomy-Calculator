@@ -154,6 +154,9 @@ class App extends React.Component {
           <h4>{`You've spent ${this.millisecondsToDaysHoursMinutesSeconds(this.state.timeSpent)}`}</h4>
           <h4>{`You have ${this.millisecondsToDaysHoursMinutesSeconds(this.state.timeLeft)} left`}</h4>
         </div>
+
+        <br/>
+        <h7>Created by <a href="http://www.tabithahsia.com">Tabitha</a></h7>
       </div>
     )
   }
